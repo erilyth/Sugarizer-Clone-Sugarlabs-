@@ -11,6 +11,7 @@
 	href="lib/sugar-web/graphics/css/sugar-200dpi.css">
 <link rel="stylesheet" href="css/activity.css">
 <script data-main="js/loader" src="lib/require.js"></script>
+<script src="speakClient.js"></script>
 </head>
 
 <body>
@@ -24,9 +25,16 @@
 </div>
 
 <!-- The content of your activity goes inside the canvas -->
-<div id="canvas">
-    <h1 id="test">Hello World!</h1>
+<div style="top:0px;margin:auto;">
+	<canvas id="canvas" height="500" width="1200"></canvas>
 </div>
+<div style="bottom:0px;position:absolute;" id="speechBox">
+	<input id="userText" name="userText" type="text" style="margin:5px;margin-left:30px;width:90vw;"></input>
+	<button id="speakText" style="height:7vh;width:7vh;top:-2vh;margin:5px;" class="toolbutton" title="Speak"></button>
+  </form>
+  <hr>
+</div>
+<div id="audio"></div>
 </body>
 
 </html>
