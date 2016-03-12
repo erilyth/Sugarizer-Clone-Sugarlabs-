@@ -1,3 +1,7 @@
 #main-toolbar #activity-button {
   background-image: url(../activity/activity-icon.svg);
 }
+
+#main-toolbar #eye-number-button {
+  background-image: url(../icons/number.svg);
+}

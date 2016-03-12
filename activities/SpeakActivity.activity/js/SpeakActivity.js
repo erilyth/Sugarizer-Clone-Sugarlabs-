@@ -1,5 +1,7 @@
 var SpeakActivity = (function() {
-	
+
+	var palette = require("sugar-web/graphics/palette");
+
 	var windowWidth = document.body.offsetWidth;
 	var windowHeight = document.body.offsetHeight;
 	var canvas = document.getElementById("canvas");
@@ -63,12 +65,14 @@ var SpeakActivity = (function() {
 			ctx.fillStyle="#000000";
 			ctx.arc(eyePos[i].x,eyePos[i].y,radiusEye*1.05,0,2*Math.PI);
 			ctx.fill();
+			ctx.closePath();
 		}
 		for(i=1;i<=noOfEyes;i++){
 			ctx.beginPath();
 			ctx.fillStyle="#FFFFFF";
 			ctx.arc(eyePos[i].x,eyePos[i].y,radiusEye,0,2*Math.PI);
 			ctx.fill();
+			ctx.closePath();
 		}
 	}
 
@@ -120,6 +124,7 @@ var SpeakActivity = (function() {
 			ctx.fillStyle="#000000";
 			ctx.arc(eyePos[i].x + getEyeballOffset(i).x,eyePos[i].y + getEyeballOffset(i).y,radiusEyeball,0,2*Math.PI);
 			ctx.fill();
+			ctx.closePath();
 		}
 	}
 
@@ -129,18 +134,20 @@ var SpeakActivity = (function() {
 		ctx.lineTo(mouthEnd.x,mouthEnd.y);
 		ctx.lineWidth = 10;
 		ctx.stroke();
+		ctx.closePath();
 	}
 
 	function updateCanvas(){
-		setEyes(noOfEyes);
 		clearCanvas();
+		noOfEyes = parseInt(document.getElementById('numeyes').innerHTML);
+		setEyes(noOfEyes);
 		drawEyes();
 		drawEyeballs();
 		drawMouth();
 	}
 
 	function clearCanvas(){
-		ctx.clearRect(0, 0, 800, 1200);
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
 	}
 
 	return {

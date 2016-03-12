@@ -4,8 +4,9 @@ define(["webL10n",
         "sugar-web/env",
         "sugar-web/datastore",
         "sugar-web/graphics/icon",
-        "sugar-web/graphics/activitypalette"], function (
-    l10n, shortcut, bus, env, datastore, icon, activitypalette) {
+        "sugar-web/graphics/activitypalette",
+        "sugar-web/graphics/numeyespalette"], function (
+    l10n, shortcut, bus, env, datastore, icon, activitypalette, numeyespalette) {
 
     'use strict';
 
@@ -57,6 +58,11 @@ define(["webL10n",
                 document.querySelector("#activity-palette .palette-invoker");
             icon.colorize(invokerElem, colors);
         });
+
+        var numOfEyesButton = document.getElementById("eye-number-button");
+
+        var numOfEyesPalette = new numeyespalette.ActivityPalette(
+            numOfEyesButton, datastoreObject);
 
         // Make the activity stop with the stop button.
         var stopButton = document.getElementById("stop-button");
