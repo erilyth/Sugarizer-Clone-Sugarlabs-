@@ -1,20 +1,30 @@
 var SpeakActivity = (function() {
 	
-	var windowWidth = window.innerWidth;
-	var windowHeight = window.innerHeight;
+	var windowWidth = document.body.offsetWidth;
+	var windowHeight = document.body.offsetHeight;
 	var canvas = document.getElementById("canvas");
 	var ctx = canvas.getContext('2d');
 
-	var radiusEye = Math.min(windowWidth,windowHeight)/7;
-	var radiusEyeball = Math.min(windowWidth,windowHeight)/24;
-	var eyePos1 = {x:windowWidth*0.95/3-radiusEye+windowHeight/20, y:windowHeight/3-radiusEye};
-	var eyePos2 = {x:windowWidth*1.75/3-radiusEye+windowHeight/20, y:windowHeight/3-radiusEye};
-	var mouthStart = {x:windowWidth*0.75/3,y:windowHeight*1.5/3.0};
-	var mouthEnd = {x:windowWidth*1.65/3,y:windowHeight*1.5/3.0};
+	var radiusEye = Math.min(windowWidth,windowHeight)/8;
+	var radiusEyeball = Math.min(windowWidth,windowHeight)/30;
+	var eyePos = [{x:0,y:0},{x:0,y:0},{x:0,y:0},{x:0,y:0},{x:0,y:0},{x:0,y:0}];
+	var mouthStart = {x:windowWidth*0.73/3,y:windowHeight*1.5/3.0};
+	var mouthEnd = {x:windowWidth*1.6/3,y:windowHeight*1.5/3.0};
+	var noOfEyes = 2;
 
 	// Detect if the browser is IE or not
 	var IE = document.all?true:false
 	var mouseX,mouseY;
+
+	function setEyes(eyes){
+		var ratio = (1)/(eyes+2);
+		var baseoffset = 0.30*windowWidth/(eyes+2);
+		var i;
+		for(i=1;i<=eyes;i++){
+			eyePos[i].x = baseoffset + windowWidth*ratio*i-radiusEye;
+			eyePos[i].y = windowHeight/2.9-radiusEye;
+		}
+	}
 
 	function init(){
 		var speech = Speech();
@@ -42,33 +52,48 @@ var SpeakActivity = (function() {
 	  if (tempY < 0){tempY = 0}  
 	  // show the position values in the form named Show
 	  // in the text fields named MouseX and MouseY
-	  mouseX = tempX;
-	  mouseY = tempY;
+	  mouseX = (tempX/document.body.offsetWidth)*1480;
+	  mouseY = (tempY/document.body.offsetHeight)*1480;
 	}
 
 	function drawEyes(){
-		ctx.beginPath();
-		ctx.fillStyle="#000000";
-		ctx.arc(eyePos1.x,eyePos1.y,radiusEye*1.05,0,2*Math.PI);
-		ctx.fill();
-		ctx.arc(eyePos2.x,eyePos2.y,radiusEye*1.05,0,2*Math.PI);
-		ctx.fill();
-		ctx.beginPath();
-		ctx.fillStyle="#FFFFFF";
-		ctx.arc(eyePos1.x,eyePos1.y,radiusEye,0,2*Math.PI);
-		ctx.fill();
-		ctx.arc(eyePos2.x,eyePos2.y,radiusEye,0,2*Math.PI);
-		ctx.fill();
+		var i;
+		for(i=1;i<=noOfEyes;i++){
+			ctx.beginPath();
+			ctx.fillStyle="#000000";
+			ctx.arc(eyePos[i].x,eyePos[i].y,radiusEye*1.05,0,2*Math.PI);
+			ctx.fill();
+		}
+		for(i=1;i<=noOfEyes;i++){
+			ctx.beginPath();
+			ctx.fillStyle="#FFFFFF";
+			ctx.arc(eyePos[i].x,eyePos[i].y,radiusEye,0,2*Math.PI);
+			ctx.fill();
+		}
 	}
 
 	function getEyeballOffset(eye){ //eye=1 for the first eye and eye=2 for the second eye
 		var offsetX,offsetY;
+		var baseoffset = 0.30*windowWidth/(noOfEyes+2);
+		var ratio = (1)/(noOfEyes+2);
 		if(eye==1){
-			offsetX = (mouseX - 0.45*windowWidth);
+			offsetX = (mouseX - (baseoffset + ratio*1*windowWidth) - radiusEyeball);
 			offsetY = (mouseY - 0.45*windowHeight)*1.2;
 		}
-		else{
-			offsetX = (mouseX - 0.58*windowWidth);
+		else if(eye==2){
+			offsetX = (mouseX - (baseoffset + ratio*2*windowWidth) - radiusEyeball);
+			offsetY = (mouseY - 0.45*windowHeight)*1.2;
+		}
+		else if(eye==3){
+			offsetX = (mouseX - (baseoffset + ratio*3*windowWidth) - radiusEyeball);
+			offsetY = (mouseY - 0.45*windowHeight)*1.2;
+		}
+		else if(eye==4){
+			offsetX = (mouseX - (baseoffset + ratio*4*windowWidth) - radiusEyeball);
+			offsetY = (mouseY - 0.45*windowHeight)*1.2;
+		}
+		else if(eye==5){
+			offsetX = (mouseX - (baseoffset + ratio*5*windowWidth) - radiusEyeball);
 			offsetY = (mouseY - 0.45*windowHeight)*1.2;
 		}
 		if(isNaN(offsetX))
@@ -89,12 +114,13 @@ var SpeakActivity = (function() {
 	}
 
 	function drawEyeballs(){
-		ctx.beginPath();
-		ctx.fillStyle="#000000";
-		ctx.arc(eyePos1.x + getEyeballOffset(1).x,eyePos1.y + getEyeballOffset(1).y,radiusEyeball,0,2*Math.PI);
-		ctx.fill();
-		ctx.arc(eyePos2.x + getEyeballOffset(2).x,eyePos2.y + getEyeballOffset(2).y,radiusEyeball,0,2*Math.PI);
-		ctx.fill();
+		var i;
+		for(i=1;i<=noOfEyes;i++){
+			ctx.beginPath();
+			ctx.fillStyle="#000000";
+			ctx.arc(eyePos[i].x + getEyeballOffset(i).x,eyePos[i].y + getEyeballOffset(i).y,radiusEyeball,0,2*Math.PI);
+			ctx.fill();
+		}
 	}
 
 	function drawMouth(){
@@ -106,6 +132,7 @@ var SpeakActivity = (function() {
 	}
 
 	function updateCanvas(){
+		setEyes(noOfEyes);
 		clearCanvas();
 		drawEyes();
 		drawEyeballs();
