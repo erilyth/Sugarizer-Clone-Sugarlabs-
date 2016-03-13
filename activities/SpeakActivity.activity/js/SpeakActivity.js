@@ -17,16 +17,10 @@ var SpeakActivity = (function() {
 	// Detect if the browser is IE or not
 	var IE = document.all?true:false
 	var mouseX,mouseY;
-
-	function setEyes(eyes){
-		var ratio = (1)/(eyes+2);
-		var baseoffset = 0.30*windowWidth/(eyes+2);
-		var i;
-		for(i=1;i<=eyes;i++){
-			eyePos[i].x = baseoffset + windowWidth*ratio*i-radiusEye;
-			eyePos[i].y = windowHeight/2.9-radiusEye;
-		}
-	}
+	var mouthYdiff = 0.0;
+	var mouthDirection = 1;
+	var mouthAnimRem = 0;
+	var mouthTimeout;
 
 	function init(){
 		var speech = Speech();
@@ -39,6 +33,16 @@ var SpeakActivity = (function() {
 		setInterval(function() {
 		  updateCanvas();
 		}, 1000/FPS);
+	}
+
+	function setEyes(eyes){
+		var ratio = (1)/(eyes+2);
+		var baseoffset = 0.30*windowWidth/(eyes+2);
+		var i;
+		for(i=1;i<=eyes;i++){
+			eyePos[i].x = baseoffset + windowWidth*ratio*i-radiusEye;
+			eyePos[i].y = windowHeight/2.9-radiusEye;
+		}
 	}
 
 	document.onmousemove = function(e){
@@ -128,10 +132,52 @@ var SpeakActivity = (function() {
 		}
 	}
 
+	document.getElementById('speakText').onmouseup = function(e){
+		moveMouth();
+	}
+
+	function animateMouth(){
+		mouthAnimRem -= 1;
+		console.log('animateMouthcalled');
+		if(mouthAnimRem<=0){
+			clearInterval(mouthTimeout);
+			mouthYdiff = 0;
+		}
+		if(mouthDirection==1){
+			mouthYdiff -= 3;
+			if(mouthYdiff<-40){
+				mouthDirection = 2;
+			}
+		}
+		else if(mouthDirection==2){
+			mouthYdiff += 3;
+			if(mouthYdiff>40){
+				mouthDirection = 1;
+			}
+		}
+	}
+
+	function moveMouth(){
+		var text = document.getElementById('userText').value;
+		var words = text.split(" ").length;
+		var time = (words/(150+40))*60; //The time taken to speak
+		var interval = 0.01;
+		mouthAnimRem = time/interval;
+		mouthTimeout = setInterval(function(){
+			animateMouth();
+		},interval*1000);
+	}
+
 	function drawMouth(){
 		ctx.beginPath();
 		ctx.moveTo(mouthStart.x,mouthStart.y);
-		ctx.lineTo(mouthEnd.x,mouthEnd.y);
+		ctx.bezierCurveTo(mouthStart.x+100,mouthStart.y+mouthYdiff,mouthEnd.x-100,mouthEnd.y+mouthYdiff,mouthEnd.x,mouthEnd.y);
+		ctx.lineWidth = 10;
+		ctx.stroke();
+		ctx.closePath();
+		ctx.beginPath();
+		ctx.moveTo(mouthStart.x,mouthStart.y);
+		ctx.bezierCurveTo(mouthStart.x+100,mouthStart.y-mouthYdiff,mouthEnd.x-100,mouthEnd.y-mouthYdiff,mouthEnd.x,mouthEnd.y);
 		ctx.lineWidth = 10;
 		ctx.stroke();
 		ctx.closePath();
