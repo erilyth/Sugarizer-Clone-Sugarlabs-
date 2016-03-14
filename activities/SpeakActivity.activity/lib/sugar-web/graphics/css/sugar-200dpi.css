@@ -300,6 +300,14 @@ label {
   background-color: black;
   border: 2px solid #808080;
 }
+.thinpalette .wrapper {
+  max-width: 86px;
+  min-width: 81px;
+  min-height: 71px;
+  pointer-events: auto;
+  background-color: black;
+  border: 2px solid #808080;
+}
 .palette .header {
   height: 71px;
   margin: 0 7.5px;

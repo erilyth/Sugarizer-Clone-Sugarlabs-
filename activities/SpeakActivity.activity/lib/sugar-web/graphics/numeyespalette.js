@@ -1,4 +1,4 @@
-define(["sugar-web/graphics/palette",
+define(["sugar-web/graphics/thinpalette",
         "text!sugar-web/graphics/numeyespalette.html"], function (palette, template) {
 
     'use strict';
