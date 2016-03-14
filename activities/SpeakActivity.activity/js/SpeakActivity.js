@@ -37,7 +37,7 @@ var SpeakActivity = (function() {
 
 	function setEyes(eyes){
 		var ratio = (1)/(eyes+2);
-		var baseoffset = 0.30*windowWidth/(eyes+2);
+		var baseoffset = 0.30*windowWidth/(eyes+1)-windowWidth*0.03;
 		var i;
 		for(i=1;i<=eyes;i++){
 			eyePos[i].x = baseoffset + windowWidth*ratio*i-radiusEye;
@@ -162,10 +162,12 @@ var SpeakActivity = (function() {
 		var words = text.split(" ").length;
 		var time = (words/(150+40))*60; //The time taken to speak
 		var interval = 0.01;
-		mouthAnimRem = time/interval;
-		mouthTimeout = setInterval(function(){
-			animateMouth();
-		},interval*1000);
+		if(text != ""){
+			mouthAnimRem = time/interval;
+			mouthTimeout = setInterval(function(){
+				animateMouth();
+			},interval*1000);
+		}
 	}
 
 	function drawMouth(){
