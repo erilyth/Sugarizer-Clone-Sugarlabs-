@@ -5,3 +5,20 @@
 #main-toolbar #face-button {
   background-image: url(../icons/face.svg);
 }
+
+#speakText {
+	height:45px;
+	width:50px;
+	margin:8px;
+	margin-left:-58px;
+	z-index:1;
+	position:absolute;
+}
+
+#userText {
+	height:40px;
+	margin:5px;
+	margin-left:4vh;
+	width:95vw;
+	z-index:0;
+}
