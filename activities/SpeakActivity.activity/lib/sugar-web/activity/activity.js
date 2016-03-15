@@ -6,8 +6,9 @@ define(["webL10n",
         "sugar-web/graphics/icon",
         "sugar-web/graphics/activitypalette",
         "sugar-web/graphics/facepalette",
+        "sugar-web/graphics/speechpalette",
         "sugar-web/graphics/numeyespalette"], function (
-    l10n, shortcut, bus, env, datastore, icon, activitypalette, facepalette, numeyespalette) {
+    l10n, shortcut, bus, env, datastore, icon, activitypalette, facepalette, speechpalette, numeyespalette) {
 
     'use strict';
 
@@ -65,6 +66,10 @@ define(["webL10n",
         var faceButtonPalette = new facepalette.ActivityPalette(
             faceButton, datastoreObject);
 
+        var speechButton = document.getElementById("speech-button");
+
+        var speechButtonPalette = new speechpalette.ActivityPalette(
+            speechButton, datastoreObject);
 
         var eyeNumberButton = document.getElementById("eyenumber");
 

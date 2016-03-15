@@ -6,6 +6,10 @@
   background-image: url(../icons/face.svg);
 }
 
+#main-toolbar #speech-button {
+  background-image: url(../icons/voice.svg);
+}
+
 #speakText {
 	height:45px;
 	width:50px;
@@ -13,6 +17,9 @@
 	margin-left:-58px;
 	z-index:1;
 	position:absolute;
+	background-image: url(../icons/go-right.svg);
+	background-size: 55px 50px;
+	background-position: 50% 50%;
 }
 
 #userText {
@@ -22,3 +29,4 @@
 	width:95vw;
 	z-index:0;
 }
+

@@ -309,8 +309,8 @@ label {
   border: 2px solid #808080;
 }
 .widepalette .wrapper {
-  max-width: 400px;
-  min-width: 400px;
+  max-width: 650px;
+  min-width: 650px;
   min-height: 71px;
   pointer-events: auto;
   background-color: black;
