@@ -10,7 +10,9 @@ var Speech = (function() {
 
 	function speaks(){
 		var text = document.getElementById('userText').value;
-		speak(text, { amplitude: 100, wordgap: 0, pitch: 50, speed: 150 });
+		var pitch = document.getElementById('pitch').innerHTML;
+		var speed = document.getElementById('rate').innerHTML;
+		speak(text, { amplitude: 100, wordgap: 0, pitch: pitch, speed: speed });
 	}
 
 	return {

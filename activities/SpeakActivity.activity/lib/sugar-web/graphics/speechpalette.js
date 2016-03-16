@@ -20,6 +20,16 @@ define(["sugar-web/graphics/widepalette",
         containerElem.innerHTML = template;
         this.setContent([containerElem]);
 
+        this.pitchScale = containerElem.querySelector('#pitchvalue');
+        this.rateScale = containerElem.querySelector('#ratevalue');
+
+        this.pitchScale.onclick = function() {
+            document.getElementById('pitch').innerHTML = this.value;
+        }
+        this.rateScale.onclick = function() {
+            document.getElementById('rate').innerHTML = this.value*(300/100) + 10;
+        }
+
     };
 
     activitypalette.ActivityPalette.prototype =

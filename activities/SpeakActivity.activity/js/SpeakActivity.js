@@ -136,21 +136,24 @@ var SpeakActivity = (function() {
 		moveMouth();
 	}
 
-	function animateMouth(){
+	function animateMouth(speed){
 		mouthAnimRem -= 1;
 		console.log('animateMouthcalled');
-		if(mouthAnimRem<=0){
+		if(mouthAnimRem<=1){
 			clearInterval(mouthTimeout);
 			mouthYdiff = 0;
 		}
+		var change = speed/70+1;
+		change = Math.min(4,change);
+		change = Math.max(1,change);
 		if(mouthDirection==1){
-			mouthYdiff -= 3;
+			mouthYdiff -= change;
 			if(mouthYdiff<-40){
 				mouthDirection = 2;
 			}
 		}
 		else if(mouthDirection==2){
-			mouthYdiff += 3;
+			mouthYdiff += change;
 			if(mouthYdiff>40){
 				mouthDirection = 1;
 			}
@@ -159,13 +162,14 @@ var SpeakActivity = (function() {
 
 	function moveMouth(){
 		var text = document.getElementById('userText').value;
+		var speed = document.getElementById('rate').innerHTML;
 		var words = text.split(" ").length;
-		var time = (words/(150+40))*60; //The time taken to speak
+		var time = (words/(speed/60+1.5)); //The time taken to speak
 		var interval = 0.01;
 		if(text != ""){
 			mouthAnimRem = time/interval;
 			mouthTimeout = setInterval(function(){
-				animateMouth();
+				animateMouth(speed);
 			},interval*1000);
 		}
 	}
