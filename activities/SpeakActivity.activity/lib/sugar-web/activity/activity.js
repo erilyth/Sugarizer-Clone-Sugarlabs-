@@ -7,8 +7,9 @@ define(["webL10n",
         "sugar-web/graphics/activitypalette",
         "sugar-web/graphics/facepalette",
         "sugar-web/graphics/speechpalette",
-        "sugar-web/graphics/numeyespalette"], function (
-    l10n, shortcut, bus, env, datastore, icon, activitypalette, facepalette, speechpalette, numeyespalette) {
+        "sugar-web/graphics/numeyespalette",
+        "sugar-web/graphics/languagepalette"], function (
+    l10n, shortcut, bus, env, datastore, icon, activitypalette, facepalette, speechpalette, numeyespalette, languagepalette) {
 
     'use strict';
 
@@ -75,6 +76,11 @@ define(["webL10n",
 
         var eyeNumberPalette = new numeyespalette.ActivityPalette(
             eyeNumberButton, datastoreObject);
+
+        var languageButton = document.getElementById("language");
+
+        var languagePalette = new languagepalette.ActivityPalette(
+            languageButton, datastoreObject);
 
         // Make the activity stop with the stop button.
         var stopButton = document.getElementById("stop-button");

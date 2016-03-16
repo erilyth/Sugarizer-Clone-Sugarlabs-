@@ -2,7 +2,14 @@ var Speech = (function() {
 
 	function init(){
 		//No Initialization as of now.
+		meSpeak.loadConfig("mespeak_config.json");
+   		meSpeak.loadVoice("voices/en/en.json");
 	}
+
+	function loadVoice(id) {
+      var fname="voices/"+id+".json";
+      meSpeak.loadVoice(fname, voiceLoaded);
+    }
 
 	document.getElementById('speakText').onmousedown = function(e){
 		speaks();
@@ -12,7 +19,7 @@ var Speech = (function() {
 		var text = document.getElementById('userText').value;
 		var pitch = document.getElementById('pitch').innerHTML;
 		var speed = document.getElementById('rate').innerHTML;
-		speak(text, { amplitude: 100, wordgap: 0, pitch: pitch, speed: speed });
+		meSpeak.speak(text, {speed: speed, pitch: pitch});
 	}
 
 	return {

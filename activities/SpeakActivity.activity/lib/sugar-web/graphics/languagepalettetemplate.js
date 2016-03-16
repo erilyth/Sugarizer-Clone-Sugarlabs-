@@ -72,7 +72,7 @@ define(function () {
             }
             paletteElem = document.createElement('div');
             //Ensure its under the palette class as well, add other classes so you can tweak them in the CSS
-            paletteElem.className = "palette thinpalette";
+            paletteElem.className = "palette widepalette";
             paletteElem.style.visibility = "hidden";
             document.body.appendChild(paletteElem);
 
