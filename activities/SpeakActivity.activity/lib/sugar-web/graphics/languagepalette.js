@@ -20,6 +20,20 @@ define(["sugar-web/graphics/languagepalettetemplate",
         containerElem.innerHTML = template;
         this.setContent([containerElem]);
 
+        this.langobjects = document.getElementsByClassName("lang");
+
+        console.log(this.langobjects);
+        for (var i=0; i<this.langobjects.length; i++){
+            this.langobjects[i].addEventListener('click', function(){
+                var langobj = document.getElementsByClassName("lang");
+                for (var j=0; j<langobj.length; j++){
+                    langobj[j].style.backgroundColor = "black";
+                }
+                this.style.backgroundColor = "grey";
+                document.getElementById('speaklang').innerHTML = (this.id).split('-')[1];
+            });
+        }
+
     };
 
     activitypalette.ActivityPalette.prototype =

@@ -6,20 +6,22 @@ var Speech = (function() {
    		meSpeak.loadVoice("voices/en/en.json");
 	}
 
-	function loadVoice(id) {
+	function playVoice(id) {
       var fname="voices/"+id+".json";
-      meSpeak.loadVoice(fname, voiceLoaded);
+      //After the voice is loaded, playSound callback is called
+      meSpeak.loadVoice(fname, playSound);
     }
 
-	document.getElementById('speakText').onmousedown = function(e){
-		speaks();
-	}
-
-	function speaks(){
+    function playSound(){
 		var text = document.getElementById('userText').value;
 		var pitch = document.getElementById('pitch').innerHTML;
 		var speed = document.getElementById('rate').innerHTML;
 		meSpeak.speak(text, {speed: speed, pitch: pitch});
+    }
+
+	document.getElementById('speakText').onmousedown = function(e){
+		var language = document.getElementById('speaklang').innerHTML;
+		playVoice(language);
 	}
 
 	return {
