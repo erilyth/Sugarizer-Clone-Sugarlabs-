@@ -67,10 +67,26 @@ define(["webL10n",
         var faceButtonPalette = new facepalette.ActivityPalette(
             faceButton, datastoreObject);
 
+        //For all the main toolbar buttons do this to hide the other palettes when we click on them
+        faceButton.onmouseup = function(e){
+            var palettes = document.getElementsByClassName('palette');
+            for(var i=0;i<palettes.length;i++){
+                palettes[i].style.visibility="hidden";
+            }
+        }
+
         var speechButton = document.getElementById("speech-button");
 
         var speechButtonPalette = new speechpalette.ActivityPalette(
             speechButton, datastoreObject);
+
+        //For all the main toolbar buttons do this to hide the other palettes when we click on them
+        speechButton.onmouseup = function(e){
+            var palettes = document.getElementsByClassName('palette');
+            for(var i=0;i<palettes.length;i++){
+                palettes[i].style.visibility="hidden";
+            }
+        }
 
         var eyeNumberButton = document.getElementById("eyenumber");
 

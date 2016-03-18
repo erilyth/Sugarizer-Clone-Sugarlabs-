@@ -28,7 +28,7 @@ var Speech = (function() {
 	    getBotReply(text);
 	    setTimeout(function(){
 			meSpeak.loadVoice(fname, playSound);
-		}, 1000);
+		}, 500);
   	  }
   	  else{
   	  	meSpeak.loadVoice(fname, playSound);

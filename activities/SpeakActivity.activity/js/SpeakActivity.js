@@ -35,6 +35,13 @@ var SpeakActivity = (function() {
 		}, 1000/FPS);
 	}
 
+	document.getElementById('userArea').onmouseup = function(e){
+		var palettes = document.getElementsByClassName('palette');
+		for(var i=0;i<palettes.length;i++){
+			palettes[i].style.visibility="hidden";
+		}
+	}
+
 	function setEyes(eyes){
 		var ratio = (1)/(eyes+2);
 		var baseoffset = 0.30*windowWidth/(eyes+1)-windowWidth*0.03;
@@ -188,7 +195,7 @@ var SpeakActivity = (function() {
 			if(document.getElementById('mode').innerHTML=="2"){
 				setTimeout(function(){
 					startMouthAnim();
-				}, 1000);
+				}, 500);
 			}
 			else{
 				startMouthAnim();
