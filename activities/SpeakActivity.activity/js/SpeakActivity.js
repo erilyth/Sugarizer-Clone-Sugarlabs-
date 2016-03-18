@@ -136,9 +136,19 @@ var SpeakActivity = (function() {
 		moveMouth();
 	}
 
+	document.getElementById('gamemode1-button').onmouseup = function(e){
+		//The speak what I write mode
+		document.getElementById('mode').innerHTML = "1";
+	}
+
+	document.getElementById('gamemode2-button').onmouseup = function(e){
+		//The robot mode
+		document.getElementById('mode').innerHTML = "2";
+	}
+
 	function animateMouth(speed){
 		mouthAnimRem -= 1;
-		console.log('animateMouthcalled');
+		//console.log('animateMouthcalled');
 		if(mouthAnimRem<=1){
 			clearInterval(mouthTimeout);
 			mouthYdiff = 0;
@@ -160,17 +170,29 @@ var SpeakActivity = (function() {
 		}
 	}
 
-	function moveMouth(){
+	function startMouthAnim(){
 		var text = document.getElementById('userText').value;
 		var speed = document.getElementById('rate').innerHTML;
 		var words = text.split(" ").length;
 		var time = (words/(speed/60+1.5)); //The time taken to speak
 		var interval = 0.01;
+		mouthAnimRem = time/interval;
+		mouthTimeout = setInterval(function(){
+			animateMouth(speed);
+		},interval*1000);
+	}
+
+	function moveMouth(){
+		var text = document.getElementById('userText').value;
 		if(text != ""){
-			mouthAnimRem = time/interval;
-			mouthTimeout = setInterval(function(){
-				animateMouth(speed);
-			},interval*1000);
+			if(document.getElementById('mode').innerHTML=="2"){
+				setTimeout(function(){
+					startMouthAnim();
+				}, 1000);
+			}
+			else{
+				startMouthAnim();
+			}
 		}
 	}
 

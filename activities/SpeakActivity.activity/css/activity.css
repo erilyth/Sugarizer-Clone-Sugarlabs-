@@ -10,6 +10,14 @@
   background-image: url(../icons/voice.svg);
 }
 
+#main-toolbar #gamemode1-button {
+  background-image: url(../icons/mode-type.svg);
+}
+
+#main-toolbar #gamemode2-button {
+  background-image: url(../icons/mode-robot.svg);
+}
+
 #speakText {
 	height:45px;
 	width:50px;
