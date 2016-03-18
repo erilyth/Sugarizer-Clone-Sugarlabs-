@@ -27,12 +27,15 @@ var AIMLInterpreter = function(botAttributesParam){
             var datastring;
             $(document).ready(function() {
                 $.ajax({
-                    url : "js/botdata.js",
+                    url : filename,
                     dataType: "text",
                     success : function (data) {
                         datastring = data;
                         //console.log(datastring);
                         new DomJS().parse(datastring, function(err, dom) {
+                            if(dom == null){
+                                dom = "<aiml></aiml>";
+                            }
                             var topCategories, topics;
                             if (err) {
                                 //            return cb(err);
@@ -130,7 +133,7 @@ var findCorrectCategory = function(clientInput, domCategories){
     var indexOfSetTagAmountWithWildCard = 0;
 
     var  travereseThroughDomToFindMatchingPattern= function(categories){
-        for(var i = 0; i < categories.length; i++){
+        for(var i = categories.length-1; i >= 0; i--){
             if(categories[i].name === 'category'){
                 //traverse through the dom
                 //text gets the value of the current pattern node

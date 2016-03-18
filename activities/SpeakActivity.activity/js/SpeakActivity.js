@@ -195,7 +195,7 @@ var SpeakActivity = (function() {
 			if(document.getElementById('mode').innerHTML=="2"){
 				setTimeout(function(){
 					startMouthAnim();
-				}, 500);
+				}, 3000);
 			}
 			else{
 				startMouthAnim();
