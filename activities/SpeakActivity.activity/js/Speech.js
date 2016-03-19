@@ -10,43 +10,28 @@ var Speech = (function() {
 
 	function getBotReply(question){
 		var aimlInterpreter = new AIMLInterpreter({name:'WireInterpreter', age:'42'});
-		aimlInterpreter.loadAIMLFilesIntoArray([
-			'js/alice/1.aiml',
-			'js/alice/2.aiml',
-			'js/alice/3.aiml',
-			'js/alice/4.aiml',
-			'js/alice/5.aiml',
-			'js/alice/6.aiml',
-			'js/alice/8.aiml',
-			'js/alice/9.aiml',
-			'js/alice/A.aiml',
-			'js/alice/B.aiml',
-			'js/alice/C.aiml',
-			'js/alice/D.aiml',
-			'js/alice/E.aiml',
-			'js/alice/F.aiml',
-			'js/alice/G.aiml',
-			'js/alice/H.aiml',
-			'js/alice/I.aiml',
-			'js/alice/J.aiml',
-			'js/alice/K.aiml',
-			'js/alice/L.aiml',
-			'js/alice/M.aiml',
-			'js/alice/N.aiml',
-			'js/alice/O.aiml',
-			'js/alice/P.aiml',
-			'js/alice/Q.aiml',
-			'js/alice/R.aiml',
-			'js/alice/S.aiml',
-			'js/alice/T.aiml',
-			'js/alice/U.aiml',
-			'js/alice/V.aiml',
-			'js/alice/W.aiml',
-			'js/alice/X.aiml',
-			'js/alice/Y.aiml',
-			'js/alice/Z.aiml',
-			'js/alice/star.aiml',
-			'js/alice/under.aiml']);
+		var filesArray = ['js/alice/star.aiml', 'js/alice/under.aiml'];
+		var words = question.split(' ');
+		var marked = new Array(256);
+		for(i=0;i<256;i++){
+			marked[i] = 0;
+		}
+		for(i=0; i<words.length; i++){
+			if(words[i][0] >= 'a' && words[i][0] <= 'z'){
+				if (marked[(words[i].charCodeAt(0)+'A'.charCodeAt(0)-'a'.charCodeAt(0))] == 0){
+					marked[(words[i].charCodeAt(0)+'A'.charCodeAt(0)-'a'.charCodeAt(0))] = 1;
+					filesArray.unshift("js/alice/" + String.fromCharCode(words[i].charCodeAt(0)+'A'.charCodeAt(0)-'a'.charCodeAt(0)) + ".aiml");
+				}
+			}
+			if((words[i][0] >= 'A' && words[i][0] <= 'Z') || (words[i][0] >= '0' && words[i][0] <= '9')){
+				if (marked[words[i].charCodeAt(0)] == 0){
+					marked[words[i].charCodeAt(0)] = 1;
+					filesArray.unshift("js/alice/" + words[i][0] + ".aiml");
+				}
+			}
+		}
+		//console.log(filesArray);
+		aimlInterpreter.loadAIMLFilesIntoArray(filesArray);
 		answerFinal = "";
 
 		var callback = function(answer, wildCardArray, input){
