@@ -23,6 +23,7 @@
   <!-- Add more buttons here -->
   <button class="toolbutton" id="gamemode1-button" title="Type something to hear it:"></button>
   <button class="toolbutton" id="gamemode2-button" title="Ask robot any questions:"></button>
+  <button class="toolbutton" id="gamemode3-button" title="Voice chat:"></button>
 
   <button class="toolbutton" id="speech-button" title="Speech:"></button>
   <button class="toolbutton" id="face-button" title="Face:"></button>
@@ -32,6 +33,10 @@
 
 <!-- The content of your activity goes inside the canvas -->
 <div id="userArea">
+  <div id="chat" style="height:800px;width:1200px;">
+    <ul id="chatbox">
+    </ul>
+  </div>
   <div style="top:0px;margin:auto;">
   	<canvas id="canvas" height="500" width="1200"></canvas>
   </div>
@@ -42,11 +47,11 @@
     <hr>
   </div>
 </div>
-<p id="mode" display="none">1</p>
-<p id="numeyes" display="none">2</p>
-<p id="rate" display="none">150</p>
-<p id="pitch" display="none">50</p>
-<p id="speaklang" display="none">en/en</p>
+<p id="mode" style="display:none;">1</p>
+<p id="numeyes" style="display:none;">2</p>
+<p id="rate" style="display:none;">150</p>
+<p id="pitch" style="display:none;">50</p>
+<p id="speaklang" style="display:none;">en/en</p>
 </body>
 <script data-main="js/loader" src="lib/require.js"></script>
 </html>

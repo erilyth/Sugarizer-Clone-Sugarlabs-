@@ -35,11 +35,15 @@ var SpeakActivity = (function() {
 		}, 1000/FPS);
 	}
 
-	document.getElementById('userArea').onmouseup = function(e){
+	function hidePalettes(){
 		var palettes = document.getElementsByClassName('palette');
 		for(var i=0;i<palettes.length;i++){
 			palettes[i].style.visibility="hidden";
 		}
+	}
+
+	document.getElementById('userArea').onmouseup = function(e){
+		hidePalettes();
 	}
 
 	function setEyes(eyes){
@@ -141,16 +145,42 @@ var SpeakActivity = (function() {
 
 	document.getElementById('speakText').onmouseup = function(e){
 		moveMouth();
+		if(document.getElementById('mode').innerHTML == "3"){
+			addToChat();
+		}
 	}
 
 	document.getElementById('gamemode1-button').onmouseup = function(e){
-		//The speak what I write mode
+		//The type something to hear it mode
 		document.getElementById('mode').innerHTML = "1";
+		document.getElementById('canvas').style.display = "block";
+		document.getElementById('chat').style.display = "none";
 	}
 
 	document.getElementById('gamemode2-button').onmouseup = function(e){
 		//The robot mode
 		document.getElementById('mode').innerHTML = "2";
+		document.getElementById('canvas').style.display = "block";
+		document.getElementById('chat').style.display = "none";
+	}
+
+	document.getElementById('gamemode3-button').onmouseup = function(e){
+		//The chat mode
+		document.getElementById('mode').innerHTML = "3";
+		document.getElementById('canvas').style.display = "none";
+		setupChat();
+	}
+
+	function setupChat(){
+		document.getElementById('chat').style.display = "block";
+	}
+
+	function addToChat(){
+		var text = document.getElementById('userText').value;
+		var chatbox = document.getElementById('chatbox');
+		var li = document.createElement("li");
+		li.appendChild(document.createTextNode(text));
+		chatbox.appendChild(li);
 	}
 
 	function animateMouth(speed){
@@ -195,7 +225,7 @@ var SpeakActivity = (function() {
 			if(document.getElementById('mode').innerHTML=="2"){
 				setTimeout(function(){
 					startMouthAnim();
-				}, 3000);
+				}, 4000);
 			}
 			else{
 				startMouthAnim();

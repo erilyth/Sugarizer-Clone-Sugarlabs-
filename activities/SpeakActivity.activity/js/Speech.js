@@ -52,7 +52,7 @@ var Speech = (function() {
 	    getBotReply(text);
 	    setTimeout(function(){
 			meSpeak.loadVoice(fname, playSound);
-		}, 3000);
+		}, 4000);
   	  }
   	  else{
   	  	meSpeak.loadVoice(fname, playSound);

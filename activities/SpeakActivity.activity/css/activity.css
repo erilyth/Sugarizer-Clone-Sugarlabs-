@@ -18,6 +18,10 @@
   background-image: url(../icons/mode-robot.svg);
 }
 
+#main-toolbar #gamemode3-button {
+  background-image: url(../icons/mode-chat.svg);
+}
+
 #speakText {
 	height:45px;
 	width:50px;
