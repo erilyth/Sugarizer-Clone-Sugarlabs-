@@ -154,14 +154,14 @@ var SpeakActivity = (function() {
 		//The type something to hear it mode
 		document.getElementById('mode').innerHTML = "1";
 		document.getElementById('canvas').style.display = "block";
-		document.getElementById('chat').style.display = "none";
+		closeChat();
 	}
 
 	document.getElementById('gamemode2-button').onmouseup = function(e){
 		//The robot mode
 		document.getElementById('mode').innerHTML = "2";
 		document.getElementById('canvas').style.display = "block";
-		document.getElementById('chat').style.display = "none";
+		closeChat();
 	}
 
 	document.getElementById('gamemode3-button').onmouseup = function(e){
@@ -175,10 +175,20 @@ var SpeakActivity = (function() {
 		document.getElementById('chat').style.display = "block";
 	}
 
+	function closeChat(){
+		document.getElementById('chat').style.display = "none";
+	}
+
 	function addToChat(){
 		var text = document.getElementById('userText').value;
 		var chatbox = document.getElementById('chatbox');
 		var li = document.createElement("li");
+		li.style.border = "1px solid grey";
+		li.style.borderRadius = "10px";
+		li.style.backgroundColor = "yellow";
+		li.style.listStyleType = "none";
+		li.style.padding = "10px";
+		li.style.margin = "10px";
 		li.appendChild(document.createTextNode(text));
 		chatbox.appendChild(li);
 	}
@@ -259,6 +269,10 @@ var SpeakActivity = (function() {
 
 	function clearCanvas(){
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.beginPath();
+		ctx.rect(0, 0, canvas.width, canvas.height);
+		ctx.fillStyle = "yellow";
+		ctx.fill();
 	}
 
 	return {
