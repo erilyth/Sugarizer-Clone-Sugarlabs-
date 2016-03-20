@@ -16,7 +16,7 @@ var SpeakActivity = (function() {
 
 	// Detect if the browser is IE or not
 	var IE = document.all?true:false
-	var mouseX,mouseY;
+	var mouseX = -1,mouseY = -1;
 	var mouthYdiff = 0.0;
 	var mouthDirection = 1;
 	var mouthAnimRem = 0;
@@ -95,7 +95,11 @@ var SpeakActivity = (function() {
 		var offsetX,offsetY;
 		var baseoffset = 0.30*windowWidth/(noOfEyes+2);
 		var ratio = (1)/(noOfEyes+2);
-		if(eye==1){
+		if(mouseX == -1 && mouseY == -1){
+			offsetX = 0;
+			offsetY = 0;
+		}
+		else if(eye==1){
 			offsetX = (mouseX - (baseoffset + ratio*1*windowWidth) - radiusEyeball);
 			offsetY = (mouseY - 0.45*windowHeight)*1.2;
 		}
@@ -127,6 +131,9 @@ var SpeakActivity = (function() {
 			yMult = -1;
 		}
 		var angle = Math.atan(Math.abs(offsetY/offsetX));
+		if(isNaN(angle)){
+			angle = 0.0;
+		}
 		var dist = 12*radiusEye*((offsetX*offsetX + offsetY*offsetY)/(1200*1200+800*800));
 		return {x:xMult*Math.min((radiusEye-radiusEyeball)*Math.cos(angle),dist*Math.cos(angle)),
 			y:yMult*Math.min((radiusEye-radiusEyeball)*Math.sin(angle),dist*Math.sin(angle))}
