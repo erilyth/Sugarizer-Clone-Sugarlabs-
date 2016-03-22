@@ -10,7 +10,7 @@ var Speech = (function() {
 
 	function getBotReply(question){
 		var aimlInterpreter = new AIMLInterpreter({name:'WireInterpreter', age:'42'});
-		var filesArray = ['js/alice/star.aiml', 'js/alice/under.aiml'];
+		var filesArray = ['js/alice/star.aiml'];
 		var words = question.split(' ');
 		var marked = new Array(256);
 		for(i=0;i<256;i++){
@@ -32,11 +32,11 @@ var Speech = (function() {
 		}
 		//console.log(filesArray);
 		aimlInterpreter.loadAIMLFilesIntoArray(filesArray);
-		answerFinal = "";
+		answerFinal = "Please ask me something else";
 
 		var callback = function(answer, wildCardArray, input){
 			if(answer == null){
-				answer = "";
+				answer = "Please ask me something else";
 			}
 		    answerFinal = answer.split('.')[0];
 		};
@@ -67,7 +67,12 @@ var Speech = (function() {
 			text = answerFinal;
 			console.log(answerFinal);
 		}
-		meSpeak.speak(text, {speed: speed, pitch: pitch});
+
+		function soundComplete(){
+			document.getElementById('speaking').innerHTML = "0";
+		}
+
+		meSpeak.speak(text, {speed: speed, pitch: pitch}, soundComplete);
     }
 
 	document.getElementById('speakText').onmousedown = function(e){

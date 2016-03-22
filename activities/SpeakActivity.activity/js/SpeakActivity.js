@@ -19,7 +19,6 @@ var SpeakActivity = (function() {
 	var mouseX = -1,mouseY = -1;
 	var mouthYdiff = 0.0;
 	var mouthDirection = 1;
-	var mouthAnimRem = 0;
 	var mouthTimeout;
 
 	function init(){
@@ -190,20 +189,18 @@ var SpeakActivity = (function() {
 		var text = document.getElementById('userText').value;
 		var chatbox = document.getElementById('chatbox');
 		var li = document.createElement("li");
-		li.style.border = "1px solid grey";
 		li.style.borderRadius = "10px";
 		li.style.backgroundColor = "yellow";
 		li.style.listStyleType = "none";
-		li.style.padding = "10px";
-		li.style.margin = "10px";
+		li.style.padding = "15px";
+		li.style.margin = "-15px";
 		li.appendChild(document.createTextNode(text));
 		chatbox.appendChild(li);
 	}
 
 	function animateMouth(speed){
-		mouthAnimRem -= 1;
 		//console.log('animateMouthcalled');
-		if(mouthAnimRem<=1){
+		if(document.getElementById('speaking').innerHTML == "0"){
 			clearInterval(mouthTimeout);
 			mouthYdiff = 0;
 		}
@@ -227,10 +224,8 @@ var SpeakActivity = (function() {
 	function startMouthAnim(){
 		var text = document.getElementById('userText').value;
 		var speed = document.getElementById('rate').innerHTML;
-		var words = text.split(" ").length;
-		var time = (words/(speed/60+1.5)); //The time taken to speak
 		var interval = 0.01;
-		mouthAnimRem = time/interval;
+		document.getElementById('speaking').innerHTML = 1;
 		mouthTimeout = setInterval(function(){
 			animateMouth(speed);
 		},interval*1000);
