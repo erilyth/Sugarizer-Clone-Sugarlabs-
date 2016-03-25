@@ -2,17 +2,35 @@ var SpeakActivity = (function() {
 
 	var palette = require("sugar-web/graphics/palette");
 
-	var windowWidth = document.body.offsetWidth;
-	var windowHeight = document.body.offsetHeight;
 	var canvas = document.getElementById("canvas");
 	var ctx = canvas.getContext('2d');
+	canvas.width  = window.innerWidth;
+  	canvas.height = window.innerHeight;
+	var windowWidth = canvas.getBoundingClientRect().width;
+	var windowHeight = canvas.getBoundingClientRect().height;
 
-	var radiusEye = Math.min(windowWidth,windowHeight)/8;
-	var radiusEyeball = Math.min(windowWidth,windowHeight)/30;
+	var radiusEye = Math.min(windowWidth,windowHeight)/6.5;
+	var radiusEyeball = Math.min(windowWidth,windowHeight)/28;
 	var eyePos = [{x:0,y:0},{x:0,y:0},{x:0,y:0},{x:0,y:0},{x:0,y:0},{x:0,y:0}];
-	var mouthStart = {x:windowWidth*0.73/3,y:windowHeight*1.5/3.0};
-	var mouthEnd = {x:windowWidth*1.6/3,y:windowHeight*1.5/3.0};
+	var mouthStart = {x:windowWidth*1.35/4,y:windowHeight*2/3.0};
+	var mouthEnd = {x:windowWidth*2.65/4,y:windowHeight*2/3.0};
 	var noOfEyes = 2;
+
+	$(window).resize(function() {
+		canvas.width  = window.innerWidth;
+  		canvas.height = window.innerHeight;
+  		windowWidth = canvas.getBoundingClientRect().width;
+		windowHeight = canvas.getBoundingClientRect().height;
+  		mouthStart = {x:windowWidth*1.35/4,y:windowHeight*2/3.0};
+		mouthEnd = {x:windowWidth*2.65/4,y:windowHeight*2/3.0};
+		radiusEye = Math.min(windowWidth,windowHeight)/6.5;
+		radiusEyeball = Math.min(windowWidth,windowHeight)/28;
+  		setEyes();
+	})
+
+	canvas.addEventListener('mousemove', function(evt) {
+        setMousePosition(canvas, evt);
+      }, false);
 
 	// Detect if the browser is IE or not
 	var IE = document.all?true:false
@@ -46,30 +64,43 @@ var SpeakActivity = (function() {
 	}
 
 	function setEyes(eyes){
-		var ratio = (1)/(eyes+2);
-		var baseoffset = 0.30*windowWidth/(eyes+1)-windowWidth*0.03;
 		var i;
-		for(i=1;i<=eyes;i++){
-			eyePos[i].x = baseoffset + windowWidth*ratio*i-radiusEye;
-			eyePos[i].y = windowHeight/2.9-radiusEye;
+		var rect = canvas.getBoundingClientRect();
+		var width = rect.width - rect.width/4.5;
+		var height = rect.height;
+		var center = rect.width/2;
+		var offset = (width*(eyes)/(5))/(eyes-1); //The max offset with 5 eyes
+		//console.log(offset);
+		if(eyes%2 == 0){
+			for(i=0;i<Math.floor(eyes/2);i++){
+				eyePos[i+1].x = (center - offset/2) - (Math.floor(eyes/2)-i-1)*offset;
+				eyePos[i+1].y = height/3;
+			}
+			for(i=0;i<Math.floor(eyes/2);i++){
+				eyePos[i+Math.floor(eyes/2)+1].x = (center + offset/2) + i*offset;
+				eyePos[i+Math.floor(eyes/2)+1].y = height/3;	
+			}
 		}
+		if(eyes%2 == 1){
+			eyePos[1].x = center;
+			eyePos[1].y = height/3;
+			for(i=0;i<Math.floor(eyes/2);i++){
+				eyePos[i+2].x = center - (Math.floor(eyes/2)-i)*offset;
+				eyePos[i+2].y = height/3;
+			}
+			for(i=0;i<Math.floor(eyes/2);i++){
+				//console.log(i+Math.floor(eyes/2)+2);
+				eyePos[i+Math.floor(eyes/2)+2].x = center + (i+1)*offset;
+				eyePos[i+Math.floor(eyes/2)+2].y = height/3;	
+			}
+		}
+		//console.log(eyePos[1]);
 	}
 
-	document.onmousemove = function(e){
-	  if (IE) { // grab the x-y pos.s if browser is IE
-	    tempX = event.clientX + document.body.scrollLeft
-	    tempY = event.clientY + document.body.scrollTop
-	  } else {  // grab the x-y pos.s if browser is NS
-	    tempX = e.pageX
-	    tempY = e.pageY
-	  }  
-	  // catch possible negative values in NS4
-	  if (tempX < 0){tempX = 0}
-	  if (tempY < 0){tempY = 0}  
-	  // show the position values in the form named Show
-	  // in the text fields named MouseX and MouseY
-	  mouseX = (tempX/document.body.offsetWidth)*1480;
-	  mouseY = (tempY/document.body.offsetHeight)*1480;
+	function setMousePosition(canvas, evt){
+		var rect = canvas.getBoundingClientRect();
+		mouseX = (evt.clientX - rect.left)*canvas.width/rect.width;
+		mouseY = (evt.clientY - rect.top)*canvas.height/rect.height;
 	}
 
 	function drawEyes(){
@@ -77,7 +108,7 @@ var SpeakActivity = (function() {
 		for(i=1;i<=noOfEyes;i++){
 			ctx.beginPath();
 			ctx.fillStyle="#000000";
-			ctx.arc(eyePos[i].x,eyePos[i].y,radiusEye*1.05,0,2*Math.PI);
+			ctx.arc(eyePos[i].x,eyePos[i].y,radiusEye*1.1,0,2*Math.PI);
 			ctx.fill();
 			ctx.closePath();
 		}
@@ -90,7 +121,7 @@ var SpeakActivity = (function() {
 		}
 	}
 
-	function getEyeballOffset(eye){ //eye=1 for the first eye and eye=2 for the second eye
+	function getEyeballOffset(eye){ //eye=1 for the first eye and so on...
 		var offsetX,offsetY;
 		var baseoffset = 0.30*windowWidth/(noOfEyes+2);
 		var ratio = (1)/(noOfEyes+2);
@@ -98,30 +129,10 @@ var SpeakActivity = (function() {
 			offsetX = 0;
 			offsetY = 0;
 		}
-		else if(eye==1){
-			offsetX = (mouseX - (baseoffset + ratio*1*windowWidth) - radiusEyeball);
-			offsetY = (mouseY - 0.45*windowHeight)*1.2;
+		else{
+			offsetX = mouseX - eyePos[eye]['x'];
+			offsetY = mouseY - eyePos[eye]['y']; 
 		}
-		else if(eye==2){
-			offsetX = (mouseX - (baseoffset + ratio*2*windowWidth) - radiusEyeball);
-			offsetY = (mouseY - 0.45*windowHeight)*1.2;
-		}
-		else if(eye==3){
-			offsetX = (mouseX - (baseoffset + ratio*3*windowWidth) - radiusEyeball);
-			offsetY = (mouseY - 0.45*windowHeight)*1.2;
-		}
-		else if(eye==4){
-			offsetX = (mouseX - (baseoffset + ratio*4*windowWidth) - radiusEyeball);
-			offsetY = (mouseY - 0.45*windowHeight)*1.2;
-		}
-		else if(eye==5){
-			offsetX = (mouseX - (baseoffset + ratio*5*windowWidth) - radiusEyeball);
-			offsetY = (mouseY - 0.45*windowHeight)*1.2;
-		}
-		if(isNaN(offsetX))
-			offsetX = 0;
-		if(isNaN(offsetY))
-			offsetY = 0;
 		var xMult=1,yMult=1;
 		if(offsetX < 0){
 			xMult = -1;
@@ -133,9 +144,8 @@ var SpeakActivity = (function() {
 		if(isNaN(angle)){
 			angle = 0.0;
 		}
-		var dist = 12*radiusEye*((offsetX*offsetX + offsetY*offsetY)/(1200*1200+800*800));
-		return {x:xMult*Math.min((radiusEye-radiusEyeball)*Math.cos(angle),dist*Math.cos(angle)),
-			y:yMult*Math.min((radiusEye-radiusEyeball)*Math.sin(angle),dist*Math.sin(angle))}
+		return {x:xMult*Math.min((radiusEye-radiusEyeball)*Math.cos(angle),Math.abs(offsetX)),
+			y:yMult*Math.min((radiusEye-radiusEyeball)*Math.sin(angle),Math.abs(offsetY))}
 	}
 
 	function drawEyeballs(){
